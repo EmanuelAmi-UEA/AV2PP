@@ -283,7 +283,57 @@ public class Main {
                 Persistence persistence = new Persistence();
                 switch (escolhaRelatorio){
                     case 1:
-                        persistence.gerarRelatorioAlunos(turma1.getListaDeAlunos(), cursoEscolhido.getNome());
+                        System.out.println("Escolha uma opção:");
+                        System.out.println("1 - Relatório individual de um aluno");
+                        System.out.println("2 - Relatório de todos os alunos");
+                        System.out.println("3 - Relatório básico de alunos");
+                        int opcaoAluno = scanner.nextInt();
+                        scanner.nextLine(); // Limpar buffer
+                        
+                        switch (opcaoAluno) {
+                            case 1:
+                                // Mostrar lista de alunos da primeira turma do curso escolhido
+                                Turma turmaSelecionada = cursoEscolhido.getTurmas().get(0);
+                                ArrayList<Aluno> alunosTurma = turmaSelecionada.getListaDeAlunos();
+                                
+                                if (alunosTurma.isEmpty()) {
+                                    System.out.println("Nenhum aluno encontrado na turma.");
+                                    break;
+                                }
+                                
+                                System.out.println("\nAlunos da turma " + turmaSelecionada.getCodigo() + ":");
+                                for (int i = 0; i < alunosTurma.size(); i++) {
+                                    System.out.println((i + 1) + " - " + alunosTurma.get(i).getNome() + 
+                                                     " (Matrícula: " + alunosTurma.get(i).getMatricula() + ")");
+                                }
+                                
+                                System.out.print("Selecione o aluno (número): ");
+                                int escolhaAlunoIndividual = scanner.nextInt();
+                                scanner.nextLine(); // Limpar buffer
+                                
+                                if (escolhaAlunoIndividual >= 1 && escolhaAlunoIndividual <= alunosTurma.size()) {
+                                    Aluno alunoSelecionado = alunosTurma.get(escolhaAlunoIndividual - 1);
+                                    persistence.gerarRelatorioPerformanceAluno(alunoSelecionado, turmaSelecionada, cursoEscolhido.getNome());
+                                } else {
+                                    System.out.println("Opção inválida.");
+                                }
+                                break;
+                                
+                            case 2:
+                                // Relatório de performance de todos os alunos
+                                Turma turmaTodos = cursoEscolhido.getTurmas().get(0);
+                                persistence.gerarRelatorioPerformanceTodosAlunos(turmaTodos.getListaDeAlunos(), turmaTodos, cursoEscolhido.getNome());
+                                break;
+                                
+                            case 3:
+                                // Relatório básico original
+                                persistence.gerarRelatorioAlunos(turma1.getListaDeAlunos(), cursoEscolhido.getNome());
+                                break;
+                                
+                            default:
+                                System.out.println("Opção inválida.");
+                                break;
+                        }
                         break;
                     case 2:
                         persistence.gerarRelatorioProfessores(cursoEscolhido.getProfessores(), cursoEscolhido.getNome());

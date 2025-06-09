@@ -177,6 +177,107 @@ public class Persistence {
         }
     }
 
+    public void gerarRelatorioPerformanceAluno(Aluno aluno, Turma turma, String nomeArquivo) {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(nomeArquivo + "_performance_" + aluno.getNome().replace(" ", "_") + ".txt"), StandardCharsets.UTF_8));
+
+            writer.write("=== RELATÓRIO DE PERFORMANCE DO ALUNO ===\n");
+            writer.write("Data: " + java.time.LocalDateTime.now() + "\n\n");
+
+            writer.write("Nome: " + aluno.getNome() + "\n");
+            writer.write("Idade: " + aluno.getIdade() + "\n");
+            writer.write("Matrícula: " + aluno.getMatricula() + "\n");
+            writer.write("Email: " + aluno.getEmail() + "\n");
+            writer.write("Turma: " + turma.getCodigo() + "\n\n");
+
+            PerformanceReport relatorio = new PerformanceReport(aluno, turma);
+
+            writer.write("=== DESEMPENHO ===\n");
+            writer.write("Média Ponderada: " + String.format("%.2f", relatorio.calculateMediaPonderada()) + "\n");
+            writer.write("Aproveitamento: " + String.format("%.2f", relatorio.calculaAproveitamento()) + "%\n\n");
+
+            writer.write("=== DETALHES DAS AVALIAÇÕES ===\n");
+            for (Assessment assessment : turma.getListaDeAvaliacoes()) {
+                boolean encontrouSubmissao = false;
+                for (Submission submission : assessment.getSubmissions()) {
+                    if (submission.getAluno().equals(aluno)) {
+                        writer.write("Avaliação: " + assessment.getTipo() + "\n");
+                        writer.write("Nota: " + submission.getNota() + "/" + assessment.getNotaMaxima() + "\n");
+                        writer.write("Peso: " + assessment.getPeso() + "\n");
+                        writer.write("Data de Entrega: " + submission.getDataEntrega() + "\n");
+                        writer.write("Comentários: " + submission.getComentarios() + "\n");
+                        writer.write("------------------------\n");
+                        encontrouSubmissao = true;
+                        break;
+                    }
+                }
+                if (!encontrouSubmissao) {
+                    writer.write("Avaliação: " + assessment.getTipo() + " - SEM SUBMISSÃO\n");
+                    writer.write("------------------------\n");
+                }
+            }
+
+            System.out.println("Relatório de performance gerado: " + nomeArquivo + "_performance_" + aluno.getNome().replace(" ", "_") + ".txt");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao gerar relatório de performance: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            fecharWriter(writer);
+        }
+    }
+
+    public void gerarRelatorioPerformanceTodosAlunos(ArrayList<Aluno> alunos, Turma turma, String nomeArquivo) {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(nomeArquivo + "_performance_todos_alunos.txt"), StandardCharsets.UTF_8));
+
+            writer.write("=== RELATÓRIO DE PERFORMANCE DE TODOS OS ALUNOS ===\n");
+            writer.write("Data: " + java.time.LocalDateTime.now() + "\n");
+            writer.write("Turma: " + turma.getCodigo() + "\n\n");
+
+            for (Aluno aluno : alunos) {
+                PerformanceReport relatorio = new PerformanceReport(aluno, turma);
+
+                writer.write("======================================\n");
+                writer.write("ALUNO: " + aluno.getNome() + "\n");
+                writer.write("======================================\n");
+                writer.write("Matrícula: " + aluno.getMatricula() + "\n");
+                writer.write("Email: " + aluno.getEmail() + "\n");
+                writer.write("Média Ponderada: " + String.format("%.2f", relatorio.calculateMediaPonderada()) + "\n");
+                writer.write("Aproveitamento: " + String.format("%.2f", relatorio.calculaAproveitamento()) + "%\n\n");
+
+                writer.write("--- Detalhes das Avaliações ---\n");
+                for (Assessment assessment : turma.getListaDeAvaliacoes()) {
+                    boolean encontrouSubmissao = false;
+                    for (Submission submission : assessment.getSubmissions()) {
+                        if (submission.getAluno().equals(aluno)) {
+                            writer.write("• " + assessment.getTipo() + ": " + submission.getNota() + "/" + assessment.getNotaMaxima() + 
+                                       " (Peso: " + assessment.getPeso() + ")\n");
+                            encontrouSubmissao = true;
+                            break;
+                        }
+                    }
+                    if (!encontrouSubmissao) {
+                        writer.write("• " + assessment.getTipo() + ": SEM SUBMISSÃO\n");
+                    }
+                }
+                writer.write("\n");
+            }
+
+            System.out.println("Relatório de performance de todos os alunos gerado: " + nomeArquivo + "_performance_todos_alunos.txt");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao gerar relatório de performance: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            fecharWriter(writer);
+        }
+    }
+
     private void fecharWriter(BufferedWriter writer) {
         if (writer != null) {
             try {
