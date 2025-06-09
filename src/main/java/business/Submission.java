@@ -1,6 +1,5 @@
 
 package business;
-friend class Assessment;
 
 public class Submission {
     private Aluno aluno;
