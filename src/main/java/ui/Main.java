@@ -141,7 +141,12 @@ public class Main {
         System.out.println("3 - Exibir Submissões de uma Turma");
         System.out.println("4 - Exibir Relatório de Desempenho de um Aluno");
         System.out.println("5 - Gerar arquivo de relatório");
-        System.out.println("6 - Deletar Aluno");
+        System.out.println("6 - Adicionar Aluno");
+        System.out.println("7 - Adicionar Professor");
+        System.out.println("8 - Adicionar Turma");
+        System.out.println("9 - Adicionar Avaliação");
+        System.out.println("10 - Adicionar Submission");
+        System.out.println("11 - Deletar Aluno");
 
         int escolhaMenu = scanner.nextInt();
         scanner.nextLine(); // Limpar buffer do Scanner
@@ -286,7 +291,6 @@ public class Main {
                         System.out.println("Escolha uma opção:");
                         System.out.println("1 - Relatório individual de um aluno");
                         System.out.println("2 - Relatório de todos os alunos");
-                        System.out.println("3 - Relatório básico de alunos");
                         int opcaoAluno = scanner.nextInt();
                         scanner.nextLine(); // Limpar buffer
                         
@@ -324,12 +328,7 @@ public class Main {
                                 Turma turmaTodos = cursoEscolhido.getTurmas().get(0);
                                 persistence.gerarRelatorioPerformanceTodosAlunos(turmaTodos.getListaDeAlunos(), turmaTodos, cursoEscolhido.getNome());
                                 break;
-                                
-                            case 3:
-                                // Relatório básico original
-                                persistence.gerarRelatorioAlunos(turma1.getListaDeAlunos(), cursoEscolhido.getNome());
-                                break;
-                                
+                            
                             default:
                                 System.out.println("Opção inválida.");
                                 break;
@@ -354,6 +353,109 @@ public class Main {
                 }
                 break;
             case 6:
+                System.out.println("Adicionar aluno");
+                System.out.println("Digite o nome do aluno:");
+                String nomeAlunoAdicionar = scanner.nextLine();
+                System.out.println("Digite a idade do aluno:");
+                int idadeAlunoAdicionar = scanner.nextInt();
+                scanner.nextLine(); // Limpar buffer
+                System.out.println("Digite a matrícula do aluno:");
+                String matriculaAlunoAdicionar = scanner.nextLine();
+                System.out.println("Digite o email do aluno:");
+                String emailAlunoAdicionar = scanner.nextLine();
+                Aluno novoAluno = new Aluno(nomeAlunoAdicionar, idadeAlunoAdicionar, matriculaAlunoAdicionar, emailAlunoAdicionar);
+                System.out.println("Escolha uma turma:");
+                for (int i = 0; i < cursoEscolhido.getTurmas().size(); i++){
+                    System.out.println((i + 1) + " - " + cursoEscolhido.getTurmas().get(i).getCodigo());
+                }
+                int escolhaTurma = scanner.nextInt();
+                scanner.nextLine(); // Limpar buffer
+                cursoEscolhido.getTurmas().get(escolhaTurma - 1).adicionarAluno(novoAluno);
+                System.out.println("Aluno adicionado com sucesso.");
+                break;
+            case 7:
+                System.out.println("Adicionar professor");
+                System.out.println("Digite o nome do professor:");
+                String nomeProfessorAdicionar = scanner.nextLine();
+                System.out.println("Digite a idade do professor:");
+                int idadeProfessorAdicionar = scanner.nextInt();
+                scanner.nextLine(); // Limpar buffer
+                System.out.println("Digite a especialidade do professor:");
+                String especialidadeProfessorAdicionar = scanner.nextLine();
+                System.out.println("Digite o ID do professor:");
+                String idProfessorAdicionar = scanner.nextLine();
+                Professor novoProfessor = new Professor(nomeProfessorAdicionar, idadeProfessorAdicionar, especialidadeProfessorAdicionar, idProfessorAdicionar);
+                cursoEscolhido.adicionarProfessor(novoProfessor);
+                System.out.println("Professor adicionado com sucesso.");
+                break;
+            case 8:
+                System.out.println("Adicionar turma");
+                System.out.println("Digite o código da turma:");
+                String codigoTurmaAdicionar = scanner.nextLine();
+                System.out.println("Digite o período da turma:");
+                String periodoTurmaAdicionar = scanner.nextLine();
+                Turma novaTurma = new Turma(codigoTurmaAdicionar, periodoTurmaAdicionar);
+                cursoEscolhido.adicionarTurma(novaTurma);
+                System.out.println("Turma adicionada com sucesso.");
+                break;
+            case 9:
+                System.out.println("Adicionar avaliação");
+                System.out.println("Digite o tipo da avaliação:");
+                String tipoAvaliacaoAdicionar = scanner.nextLine();
+                System.out.println("Digite a nota máxima da avaliação:");
+                double notaMaximaAvaliacaoAdicionar = scanner.nextDouble();
+                scanner.nextLine(); // Limpar buffer
+                System.out.println("Digite o peso da avaliação:");
+                double pesoAvaliacaoAdicionar = scanner.nextDouble();
+                scanner.nextLine(); // Limpar buffer
+                System.out.println("Escolha uma turma:");
+                for (int i = 0; i < cursoEscolhido.getTurmas().size(); i++){
+                    System.out.println((i + 1) + " - " + cursoEscolhido.getTurmas().get(i).getCodigo());
+                }
+                int escolhaTurmaAvaliacao = scanner.nextInt();
+                scanner.nextLine(); // Limpar buffer
+                   Assessment novaAvaliacao = new Assessment(tipoAvaliacaoAdicionar, notaMaximaAvaliacaoAdicionar, pesoAvaliacaoAdicionar, cursoEscolhido.getTurmas().get(escolhaTurmaAvaliacao - 1));
+                    cursoEscolhido.getTurmas().get(escolhaTurmaAvaliacao - 1).adicionarAvaliacao(novaAvaliacao);
+                    System.out.println("Avaliação adicionada com sucesso.");
+                    break;
+                case 10:
+                    System.out.println("Adicionar submission");
+                    System.out.println("Escolha uma turma:");
+                    for (int i = 0; i < cursoEscolhido.getTurmas().size(); i++){
+                        System.out.println((i + 1) + " - " + cursoEscolhido.getTurmas().get(i).getCodigo());
+                    }
+                    int escolhaTurmaSubmission = scanner.nextInt();
+                    scanner.nextLine(); // Limpar buffer
+                    Turma turmaSubmission = cursoEscolhido.getTurmas().get(escolhaTurmaSubmission - 1);
+                    System.out.println("Escolha um aluno:");
+                    for (int i = 0; i < turmaSubmission.getListaDeAlunos().size(); i++){
+                        System.out.println((i + 1) + " - " + turmaSubmission.getListaDeAlunos().get(i).getNome());
+                    }
+                    int escolhaAlunoSubmission = scanner.nextInt();
+                    scanner.nextLine(); // Limpar buffer
+                    Aluno alunoSubmission = turmaSubmission.getListaDeAlunos().get(escolhaAlunoSubmission - 1);
+                    System.out.println("Escolha uma avaliação:");
+                    for (int i = 0; i < turmaSubmission.getListaDeAvaliacoes().size(); i++){
+                        System.out.println((i + 1) + " - " + turmaSubmission.getListaDeAvaliacoes().get(i).getTipo());
+                    }
+                    int escolhaAvaliacaoSubmission = scanner.nextInt();
+                    scanner.nextLine(); // Limpar buffer
+                    Assessment avaliacaoSubmission = turmaSubmission.getListaDeAvaliacoes().get(escolhaAvaliacaoSubmission - 1);
+                    System.out.println("Digite a nota da submission:");
+                    double notaSubmission = scanner.nextDouble();
+                    scanner.nextLine(); // Limpar buffer
+                    System.out.println("Digite a data de entrega da submission:");
+                    String dataEntregaSubmission = scanner.nextLine();
+                    System.out.println("Digite os comentários da submission:");
+                    String comentariosSubmission = scanner.nextLine();
+                    Submission novaSubmission = new Submission(alunoSubmission, avaliacaoSubmission, notaSubmission, dataEntregaSubmission, comentariosSubmission);
+                    avaliacaoSubmission.addSubmission(novaSubmission);
+                    alunoSubmission.addSubmission(novaSubmission);
+                    System.out.println("Submission adicionada com sucesso.");
+                    break;
+                
+                
+            case 11:
                 System.out.println("Deletar aluno");
                 System.out.println("Digite o nome do aluno:");
                 String nomeAlunoDeletar = scanner.nextLine();
