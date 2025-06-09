@@ -78,3 +78,16 @@ args = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.ja
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "java -classpath .:target/dependency/* ui.Main"
+
+[[workflows.workflow]]
+name = "Run GUI"
+author = 40449734
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "java -classpath .:target/dependency/* ui.SwingGUI"
