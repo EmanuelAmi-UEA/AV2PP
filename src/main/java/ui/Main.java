@@ -15,7 +15,7 @@ public class Main extends JFrame {
     private Curso cursoSelecionado;
     private JComboBox<String> comboCursos;
     private JTextArea textAreaResultados;
-    private JButton btnProfessores, btnTurmas, btnSubmissoes, btnRelatorio, btnDeletarAluno;
+    private JButton btnProfessores, btnTurmas, btnSubmissoes, btnRelatorio, btnDeletarAluno, btnRelatorioTxt;
 
     public Main() {
         inicializarDados();
@@ -131,6 +131,7 @@ public class Main extends JFrame {
         btnTurmas = new JButton("Informações das Turmas");
         btnSubmissoes = new JButton("Submissões da Turma");
         btnRelatorio = new JButton("Relatório de Desempenho");
+        btnRelatorioTxt = new JButton("Gerar arquivo de relatorio");
         btnDeletarAluno = new JButton("Deletar Aluno");
 
         btnProfessores.addActionListener(e -> exibirInformacoesProfessores());
@@ -143,6 +144,7 @@ public class Main extends JFrame {
         painelCentral.add(btnTurmas);
         painelCentral.add(btnSubmissoes);
         painelCentral.add(btnRelatorio);
+        painelCentral.add(btnRelatorioTxt);
         painelCentral.add(btnDeletarAluno);
 
         habilitarBotoes(false);
