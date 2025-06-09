@@ -1,320 +1,279 @@
-
 package ui;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 import business.*;
+import persistence.Persistence;
 
-public class Main extends JFrame {
-    private ArrayList<Curso> cursos;
-    private Curso cursoSelecionado;
-    private JComboBox<String> comboCursos;
-    private JTextArea textAreaResultados;
-    private JButton btnProfessores, btnTurmas, btnSubmissoes, btnRelatorio, btnDeletarAluno, btnRelatorioTxt;
+public class Main {
+  public static void main(String[] args) {
+    // criar scanner  
+    Scanner scanner = new Scanner(System.in);
 
-    public Main() {
-        inicializarDados();
-        configurarInterface();
-    }
+    // Criar Professor
+    Professor professor = new Professor("Dr. Silva",50, "Ciência da Computação", "PROF001");
+    Professor professor2 = new Professor("Me. Souza",50, "Licenciatura da Computação", "PROF002");
+    Professor professor3 = new Professor("Me. Souza",50, "Licenciatura da Computação", "PROF002");    
 
-    private void inicializarDados() {
-        cursos = new ArrayList<>();
+    // Criar Curso
+    Curso curso = new Curso("Programação Java", "60h", "POO, Collections, Exception Handling");
+    Curso curso2 = new Curso("Algoritmos e Estruturas de Dados", "60h", "Estruturas de Dados, Algoritmos de Ordenação");
 
-        // Criar Professores
-        Professor professor = new Professor("Dr. Silva", 45, "Ciência da Computação", "PROF001");
-        Professor professor2 = new Professor("Me. Souza", 38, "Licenciatura da Computação", "PROF002");
+    // Associar Professor ao Curso
+    professor.adicionarCurso(curso);
+    curso.adicionarProfessor(professor);
+    professor2.adicionarCurso(curso2); 
+    curso2.adicionarProfessor(professor2);
+    professor3.adicionarCurso(curso);
+    curso.adicionarProfessor(professor3);
 
-        // Criar Cursos
-        Curso curso = new Curso("Programação Java", "60h", "POO, Collections, Exception Handling");
-        Curso curso2 = new Curso("Algoritmos e Estruturas de Dados", "60h", "Estruturas de Dados, Algoritmos de Ordenação");
+    // Criar Turmas
+    Turma turma1 = new Turma("T1-2025", "2025.1");
+    Turma turma2 = new Turma("T2-2025", "2025.1");
 
-        // Associar Professor ao Curso
-        curso.setProfessor(professor);
-        curso2.setProfessor(professor2);
-        professor.adicionarCurso(curso);
-        professor2.adicionarCurso(curso2);
+    // Adicionar Turmas ao Curso
+    curso.adicionarTurma(turma1);
+    curso2.adicionarTurma(turma2);
 
-        // Criar Turmas
-        Turma turma1 = new Turma("T1-2025", "2025.1");
-        Turma turma2 = new Turma("T2-2025", "2025.1");
+    // Criar e adicionar alunos à Turma 1
+    turma1.adicionarAluno(new Aluno("João Silva",20, "2023001", "joao@email.com"));
+    turma1.adicionarAluno(new Aluno("Maria Santos",20, "2023002", "maria@email.com"));
+    turma1.adicionarAluno(new Aluno("Pedro Costa",20, "2023003", "pedro@email.com"));
+    turma1.adicionarAluno(new Aluno("Ana Oliveira",20, "2023004", "ana@email.com"));
+    turma1.adicionarAluno(new Aluno("Lucas Pereira",20, "2023005", "lucas@email.com"));
+    turma1.adicionarAluno(new Aluno("Carlos Souza",20, "2023006", "carlos@email.com"));
+    turma1.adicionarAluno(new Aluno("Julia Lima",20, "2023007", "julia@email.com"));
 
-        // Adicionar Turmas ao Curso
-        curso.adicionarTurma(turma1);
-        curso2.adicionarTurma(turma2);
+    // Criar e adicionar alunos à Turma 2
+    turma2.adicionarAluno(new Aluno("Carlos Souza",21, "2023006", "carlos@email.com")); // repetido
+    turma2.adicionarAluno(new Aluno("Julia Lima",21, "2023007", "julia@email.com")); // repetido
+    turma2.adicionarAluno(new Aluno("Rafael Martins",21, "2023008", "rafael@email.com")); 
+    turma2.adicionarAluno(new Aluno("Beatriz Alves",21, "2023009", "beatriz@email.com")); 
+    turma2.adicionarAluno(new Aluno("Gabriel Santos",21, "2023010", "gabriel@email.com")); 
+    turma2.adicionarAluno(new Aluno("Ana Oliveira",21, "2023004", "ana@email.com")); // repetido
+    turma2.adicionarAluno(new Aluno("Lucas Pereira",21, "2023005", "lucas@email.com")); // repetido
 
-        // Criar e adicionar alunos à Turma 1
-        turma1.adicionarAluno(new Aluno("João Silva", 20, "2023001", "joao@email.com"));
-        turma1.adicionarAluno(new Aluno("Maria Santos", 19, "2023002", "maria@email.com"));
-        turma1.adicionarAluno(new Aluno("Pedro Costa", 21, "2023003", "pedro@email.com"));
-        turma1.adicionarAluno(new Aluno("Ana Oliveira", 20, "2023004", "ana@email.com"));
-        turma1.adicionarAluno(new Aluno("Lucas Pereira", 22, "2023005", "lucas@email.com"));
-        turma1.adicionarAluno(new Aluno("Carlos Souza", 19, "2023006", "carlos@email.com"));
-        turma1.adicionarAluno(new Aluno("Julia Lima", 21, "2023007", "julia@email.com"));
 
-        // Criar e adicionar alunos à Turma 2
-        turma2.adicionarAluno(new Aluno("Carlos Souza", 19, "2023006", "carlos@email.com"));
-        turma2.adicionarAluno(new Aluno("Julia Lima", 21, "2023007", "julia@email.com"));
-        turma2.adicionarAluno(new Aluno("Rafael Martins", 20, "2023008", "rafael@email.com"));
-        turma2.adicionarAluno(new Aluno("Beatriz Alves", 19, "2023009", "beatriz@email.com"));
-        turma2.adicionarAluno(new Aluno("Gabriel Santos", 22, "2023010", "gabriel@email.com"));
-        turma2.adicionarAluno(new Aluno("Ana Oliveira", 20, "2023004", "ana@email.com"));
-        turma2.adicionarAluno(new Aluno("Lucas Pereira", 22, "2023005", "lucas@email.com"));
+    // criar avaliações
 
-        // Criar avaliações
-        Assessment av1Turma1 = new Assessment("Prova 1", 10.0, 0.4, turma1);
-        Assessment av2Turma1 = new Assessment("Prova 2", 10.0, 0.6, turma1);
-        Assessment av3Turma1 = new Assessment("Prova 3", 10.0, 1.0, turma1);
-        Assessment av1Turma2 = new Assessment("Teste", 5.0, 0.3, turma2);
-        Assessment av2Turma2 = new Assessment("Trabalho Prático", 10.0, 0.7, turma2);
-        Assessment av3Turma2 = new Assessment("Projeto", 10.0, 0.5, turma2);
+    Assessment av1Turma1 = new Assessment("Prova 1", 10.0, 0.4, turma1);
+    Assessment av2Turma1 = new Assessment("Prova 2", 10.0, 0.6, turma1);
+    Assessment av3Turma1 = new Assessment("prova 3", 10.0, 1.0, turma1);
+    Assessment av1Turma2 = new Assessment("Teste", 5.0, 0.3, turma2);
+    Assessment av2Turma2 = new Assessment("Trabalho Prático", 10.0, 0.7, turma2);
+    Assessment av3Turma2 = new Assessment("Projeto", 10.0, 0.5, turma2);
 
-        // Adicionar avaliações
-        turma1.adicionarAvaliacao(av1Turma1);
-        turma1.adicionarAvaliacao(av2Turma1);
-        turma1.adicionarAvaliacao(av3Turma1);
-        turma2.adicionarAvaliacao(av1Turma2);
-        turma2.adicionarAvaliacao(av2Turma2);
-        turma2.adicionarAvaliacao(av3Turma2);
+    // adicionar avaliações
+    turma1.adicionarAvaliacao(av1Turma1);
+    turma1.adicionarAvaliacao(av2Turma1);
+    turma1.adicionarAvaliacao(av3Turma1);
+    turma2.adicionarAvaliacao(av1Turma2);
+    turma2.adicionarAvaliacao(av2Turma2);
+    turma2.adicionarAvaliacao(av3Turma2);
 
-        // Criar submissions Turma 1
-        new Submission(turma1.getListaDeAlunos().get(0), av1Turma1, 8.5, "2025-05-01", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(0), av2Turma1, 9.0, "2025-05-15", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(0), av3Turma1, 7.5, "2025-05-30", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(1), av1Turma1, 6.0, "2025-05-01", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(1), av2Turma1, 7.5, "2025-05-15", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(1), av3Turma1, 8.0, "2025-05-30", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(2), av1Turma1, 9.5, "2025-05-01", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(2), av2Turma1, 8.0, "2025-05-15", "Parabéns!");
-        new Submission(turma1.getListaDeAlunos().get(2), av3Turma1, 9.0, "2025-05-30", "Parabéns!");
+    // criar submissions Turma 1
+    new Submission(turma1.getListaDeAlunos().get(0), av1Turma1, 8.5, "2025-05-01", "Parabens!");
+    turma1.getListaDeAlunos().get(0).addSubmission(new Submission(turma1.getListaDeAlunos().get(0), av2Turma1, 9.0, "2025-05-15", "Parabens!")); 
+    turma1.getListaDeAlunos().get(0).addSubmission(new Submission(turma1.getListaDeAlunos().get(0), av3Turma1, 7.5, "2025-05-30", "Parabens!"));
+    turma1.getListaDeAlunos().get(1).addSubmission(new Submission(turma1.getListaDeAlunos().get(1), av1Turma1, 6.0, "2025-05-01", "Parabens!"));
+    turma1.getListaDeAlunos().get(1).addSubmission(new Submission(turma1.getListaDeAlunos().get(1), av2Turma1, 7.5, "2025-05-15", "Parabens!"));
+    turma1.getListaDeAlunos().get(1).addSubmission(new Submission(turma1.getListaDeAlunos().get(1), av3Turma1, 8.0, "2025-05-30", "Parabens!"));
+    turma1.getListaDeAlunos().get(2).addSubmission(new Submission(turma1.getListaDeAlunos().get(2), av1Turma1, 9.5, "2025-05-01", "Parabens!"));
+    turma1.getListaDeAlunos().get(2).addSubmission(new Submission(turma1.getListaDeAlunos().get(2), av2Turma1, 8.0, "2025-05-15", "Parabens!"));
+    turma1.getListaDeAlunos().get(2).addSubmission(new Submission(turma1.getListaDeAlunos().get(2), av3Turma1, 9.0, "2025-05-30", "Parabens!"));
+    turma1.getListaDeAlunos().get(3).addSubmission(new Submission(turma1.getListaDeAlunos().get(3), av1Turma1, 7.0, "2025-05-01", "Parabens!"));
+    turma1.getListaDeAlunos().get(3).addSubmission(new Submission(turma1.getListaDeAlunos().get(3), av2Turma1, 8.5, "2025-05-15", "Parabens!"));
+    turma1.getListaDeAlunos().get(3).addSubmission(new Submission(turma1.getListaDeAlunos().get(3), av3Turma1, 8.5, "2025-05-30", "Parabens!"));
+    turma1.getListaDeAlunos().get(4).addSubmission(new Submission(turma1.getListaDeAlunos().get(4), av1Turma1, 8.0, "2025-05-01", "Parabens!"));
+    turma1.getListaDeAlunos().get(4).addSubmission(new Submission(turma1.getListaDeAlunos().get(4), av2Turma1, 9.0, "2025-05-15", "Parabens!"));
+    turma1.getListaDeAlunos().get(4).addSubmission(new Submission(turma1.getListaDeAlunos().get(4), av3Turma1, 8.0, "2025-05-30", "Parabens!"));
 
-        // Criar submissions Turma 2
-        new Submission(turma2.getListaDeAlunos().get(0), av1Turma2, 4.5, "2025-05-01", "Parabéns!");
-        new Submission(turma2.getListaDeAlunos().get(0), av2Turma2, 9.0, "2025-05-15", "Parabéns!");
-        new Submission(turma2.getListaDeAlunos().get(0), av3Turma2, 8.5, "2025-05-30", "Parabéns!");
-        new Submission(turma2.getListaDeAlunos().get(1), av1Turma2, 3.0, "2025-05-01", "Parabéns!");
-        new Submission(turma2.getListaDeAlunos().get(1), av2Turma2, 7.5, "2025-05-15", "Parabéns!");
-        new Submission(turma2.getListaDeAlunos().get(1), av3Turma2, 8.0, "2025-05-30", "Parabéns!");
+    //criar submissions Turma 2
+    turma2.getListaDeAlunos().get(0).addSubmission(new Submission(turma2.getListaDeAlunos().get(0), av1Turma2, 4.5, "2025-05-01", "Parabens!"));
+    turma2.getListaDeAlunos().get(0).addSubmission(new Submission(turma2.getListaDeAlunos().get(0), av2Turma2, 9.0, "2025-05-15", "Parabens!"));
+    turma2.getListaDeAlunos().get(0).addSubmission(new Submission(turma2.getListaDeAlunos().get(0), av3Turma2, 8.5, "2025-05-30", "Parabens!"));
+    turma2.getListaDeAlunos().get(1).addSubmission(new Submission(turma2.getListaDeAlunos().get(1), av1Turma2, 3.0, "2025-05-01", "Parabens!"));
+    turma2.getListaDeAlunos().get(1).addSubmission(new Submission(turma2.getListaDeAlunos().get(1), av2Turma2, 7.5, "2025-05-15", "Parabens!"));
+    turma2.getListaDeAlunos().get(1).addSubmission(new Submission(turma2.getListaDeAlunos().get(1), av3Turma2, 8.0, "2025-05-30", "Parabens!"));
+    turma2.getListaDeAlunos().get(2).addSubmission(new Submission(turma2.getListaDeAlunos().get(2), av1Turma2, 4.5, "2025-05-01", "Parabens!"));
+    turma2.getListaDeAlunos().get(2).addSubmission(new Submission(turma2.getListaDeAlunos().get(2), av2Turma2, 8.0, "2025-05-15", "Parabens!"));
+    turma2.getListaDeAlunos().get(2).addSubmission(new Submission(turma2.getListaDeAlunos().get(2), av3Turma2, 9.0, "2025-05-30", "Parabens!"));
+    turma2.getListaDeAlunos().get(3).addSubmission(new Submission(turma2.getListaDeAlunos().get(3), av1Turma2, 4.0, "2025-05-01", "Parabens!"));
+    turma2.getListaDeAlunos().get(3).addSubmission(new Submission(turma2.getListaDeAlunos().get(3), av2Turma2, 8.5, "2025-05-15", "Parabens!"));
+    turma2.getListaDeAlunos().get(3).addSubmission(new Submission(turma2.getListaDeAlunos().get(3), av3Turma2, 8.5, "2025-05-30", "Parabens!"));
+    turma2.getListaDeAlunos().get(4).addSubmission(new Submission(turma2.getListaDeAlunos().get(4), av1Turma2, 4.0, "2025-05-01", "Parabens!"));
+    turma2.getListaDeAlunos().get(4).addSubmission(new Submission(turma2.getListaDeAlunos().get(4), av2Turma2, 9.0, "2025-05-15", "Parabens!"));
+    turma2.getListaDeAlunos().get(4).addSubmission(new Submission(turma2.getListaDeAlunos().get(4), av3Turma2, 8.0, "2025-05-30", "Parabens!"));
 
-        cursos.add(curso);
-        cursos.add(curso2);
-    }
 
-    private void configurarInterface() {
-        setTitle("Sistema de Gestão Acadêmica");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-        setMinimumSize(new Dimension(800, 600));
+    ///Escolha de curso
+        boolean continuar = true;
+        while (continuar) {
+            System.out.println("\nEscolha um curso:");
+            System.out.println("1 - " + curso.getNome());
+            System.out.println("2 - " + curso2.getNome());
+            System.out.println("0 - Sair");
+            System.out.print("Digite o número do curso: ");
 
-        // Painel superior - Seleção de curso
-        JPanel painelSuperior = new JPanel(new FlowLayout());
-        painelSuperior.setBorder(new EmptyBorder(10, 10, 10, 10));
-        painelSuperior.add(new JLabel("Selecione um curso:"));
+            int escolhaCurso = scanner.nextInt();
+            scanner.nextLine(); // Limpar buffer do Scanner
 
-        String[] nomesCursos = cursos.stream().map(Curso::getNome).toArray(String[]::new);
-        comboCursos = new JComboBox<>(nomesCursos);
-        comboCursos.addActionListener(e -> {
-            cursoSelecionado = cursos.get(comboCursos.getSelectedIndex());
-            habilitarBotoes(true);
-        });
-        painelSuperior.add(comboCursos);
-
-        // Painel central - Botões de ação
-        JPanel painelCentral = new JPanel(new GridLayout(2, 3, 10, 10));
-        painelCentral.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        btnProfessores = new JButton("Informações dos Professores");
-        btnTurmas = new JButton("Informações das Turmas");
-        btnSubmissoes = new JButton("Submissões da Turma");
-        btnRelatorio = new JButton("Relatório de Desempenho");
-        btnRelatorioTxt = new JButton("Gerar arquivo de relatorio");
-        btnDeletarAluno = new JButton("Deletar Aluno");
-
-        btnProfessores.addActionListener(e -> exibirInformacoesProfessores());
-        btnTurmas.addActionListener(e -> exibirInformacoesTurmas());
-        btnSubmissoes.addActionListener(e -> exibirSubmissoes());
-        btnRelatorio.addActionListener(e -> exibirRelatorioDesempenho());
-        btnDeletarAluno.addActionListener(e -> deletarAluno());
-
-        painelCentral.add(btnProfessores);
-        painelCentral.add(btnTurmas);
-        painelCentral.add(btnSubmissoes);
-        painelCentral.add(btnRelatorio);
-        painelCentral.add(btnRelatorioTxt);
-        painelCentral.add(btnDeletarAluno);
-
-        habilitarBotoes(false);
-
-        // Área de resultados
-        textAreaResultados = new JTextArea();
-        textAreaResultados.setEditable(false);
-        textAreaResultados.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        JScrollPane scrollPane = new JScrollPane(textAreaResultados);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Resultados"));
-
-        add(painelSuperior, BorderLayout.NORTH);
-        add(painelCentral, BorderLayout.CENTER);
-        add(scrollPane, BorderLayout.SOUTH);
-
-        pack();
-        setLocationRelativeTo(null);
-
-        // Selecionar primeiro curso por padrão
-        if (!cursos.isEmpty()) {
-            cursoSelecionado = cursos.get(0);
-            habilitarBotoes(true);
-        }
-    }
-
-    private void habilitarBotoes(boolean habilitar) {
-        btnProfessores.setEnabled(habilitar);
-        btnTurmas.setEnabled(habilitar);
-        btnSubmissoes.setEnabled(habilitar);
-        btnRelatorio.setEnabled(habilitar);
-        btnDeletarAluno.setEnabled(habilitar);
-    }
-
-    private void exibirInformacoesProfessores() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== INFORMAÇÕES DO PROFESSOR ===\n\n");
-        sb.append("Curso: ").append(cursoSelecionado.getNome()).append("\n");
-        sb.append("Professor: ").append(cursoSelecionado.getProfessor().getNome()).append("\n");
-        sb.append("Especialidade: ").append(cursoSelecionado.getProfessor().getEspecilidade()).append("\n");
-        textAreaResultados.setText(sb.toString());
-    }
-
-    private void exibirInformacoesTurmas() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== INFORMAÇÕES DAS TURMAS ===\n\n");
-        sb.append("Curso: ").append(cursoSelecionado.getNome()).append("\n");
-        sb.append("Professor: ").append(cursoSelecionado.getProfessor().getNome()).append("\n\n");
-
-        for (Turma turma : cursoSelecionado.getTurmas()) {
-            sb.append("Turma: ").append(turma.getCodigo()).append("\n");
-            sb.append("Período: ").append(turma.getPeriodo()).append("\n");
-            sb.append("Alunos:\n");
-            for (Aluno aluno : turma.getListaDeAlunos()) {
-                sb.append("  - ").append(aluno.getNome())
-                  .append(" (Matrícula: ").append(aluno.getMatricula()).append(")\n");
+            if (escolhaCurso == 0) {
+                System.out.println("Programa encerrado.");
+                continuar = false;
+                continue;
             }
-            sb.append("Avaliações:\n");
-            for (Assessment avaliacao : turma.getListaDeAvaliacoes()) {
-                sb.append("  - ").append(avaliacao.getTipo())
-                  .append(" (Peso: ").append(avaliacao.getPeso()).append(")\n");
+
+            if (escolhaCurso < 1 || escolhaCurso > 2) {
+                System.out.println("Curso inválido.");
+                continue;
             }
-            sb.append("\n");
-        }
-        textAreaResultados.setText(sb.toString());
-    }
 
-    private void exibirSubmissoes() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== SUBMISSÕES DA TURMA ===\n\n");
-        sb.append("Curso: ").append(cursoSelecionado.getNome()).append("\n\n");
+        Curso cursoEscolhido = (escolhaCurso == 1) ? curso : curso2;
 
-        for (Turma turma : cursoSelecionado.getTurmas()) {
-            sb.append("Turma: ").append(turma.getCodigo()).append("\n");
-            for (Assessment a : turma.getListaDeAvaliacoes()) {
-                sb.append("\nAvaliação: ").append(a.getTipo()).append("\n");
-                List<Submission> submissions = a.getSubmissions();
-                if (submissions.isEmpty()) {
-                    sb.append("  Nenhuma submissão registrada.\n");
-                } else {
-                    for (Submission s : submissions) {
-                        sb.append("  Aluno: ").append(s.getAluno().getNome())
-                          .append(" | Nota: ").append(s.getNota())
-                          .append(" | Entrega: ").append(s.getDataEntrega())
-                          .append(" | Comentários: ").append(s.getComentarios()).append("\n");
+        // Menu de opções
+        System.out.println("\nEscolha uma opção:");
+        System.out.println("1 - Exibir informações dos Professores");
+        System.out.println("2 - Exibir informações das Turmas");
+        System.out.println("3 - Exibir Submissões de uma Turma");
+        System.out.println("4 - Exibir Relatório de Desempenho de um Aluno");
+        System.out.println("5 - Gerar arquivo de relatório");
+        System.out.println("6 - Deletar Aluno");
+
+        int escolhaMenu = scanner.nextInt();
+        scanner.nextLine(); // Limpar buffer do Scanner
+
+        // Switch para cada opção
+        switch (escolhaMenu) {
+            case 1:
+                // Exibir informações dos professores
+                System.out.println("\nInformações do Professor da turma: " + cursoEscolhido.getNome());
+                System.out.println("Professor: " + cursoEscolhido.getProfessor(professor.getNome()));
+                break;
+            case 2:
+                // Exibir informações das turmas
+                System.out.println("\nInformações da turma: " + cursoEscolhido.getNome());
+                System.out.println("Professor: " + cursoEscolhido.getProfessor().getNome());
+                for (Turma turma : cursoEscolhido.getTurmas()){
+                    System.out.println("Turma: " + turma.getCodigo());
+                    System.out.println("Período: " + turma.getPeriodo());
+                    System.out.println("Alunos:");
+                    for (Aluno aluno : turma.getListaDeAlunos()) {
+                        System.out.println("- " + aluno.getNome() + " (Matrícula: " + aluno.getMatricula() + ")");
                     }
+                System.out.println("Avaliações:");
+                for (Assessment avaliacao : turma.getListaDeAvaliacoes()){
+                    System.out.println("- " + avaliacao.getTipo() + " (Peso: " + avaliacao.getPeso()  + ")");
                 }
-            }
-            sb.append("\n");
-        }
-        textAreaResultados.setText(sb.toString());
-    }
+                }
+                break;
+            case 3:
+                // Exibir submissões de uma turma
+                System.out.println("\nSubmissões da turma: " + cursoEscolhido.getNome());
+                for (Assessment a : cursoEscolhido.getTurmas().get(0).getListaDeAvaliacoes()) {
+                    System.out.println("\nAvaliação: " + a.getTipo());
+                    List<Submission> submissions = a.getSubmissions();
+                    if (submissions.isEmpty()) {
+                        System.out.println("  Nenhuma submissao registrada.");
+                    } else {
+                        for (Submission s : submissions) {
+                            System.out.println("  Aluno: " + s.getAluno().getNome() +
+                                    " | Nota: " + s.getNota() +
+                                    " | Entrega: " + s.getDataEntrega() +
+                                    " | Comentários: " + s.getComentarios());
 
-    private void exibirRelatorioDesempenho() {
-        String nomeAluno = JOptionPane.showInputDialog(this, "Digite o nome do aluno:");
-        if (nomeAluno == null || nomeAluno.trim().isEmpty()) {
-            return;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        boolean encontrou = false;
-
-        for (Turma turma : cursoSelecionado.getTurmas()) {
-            for (Aluno aluno : turma.getListaDeAlunos()) {
-                if (aluno.getNome().equalsIgnoreCase(nomeAluno)) {
-                    PerformanceReport relatorio = new PerformanceReport(aluno, turma);
-
-                    sb.append("=== RELATÓRIO DE DESEMPENHO ===\n\n");
-                    sb.append("Aluno: ").append(aluno.getNome()).append("\n");
-                    sb.append("Turma: ").append(turma.getCodigo()).append("\n\n");
-
-                    for (Assessment a : turma.getListaDeAvaliacoes()) {
-                        for (Submission s : a.getSubmissions()) {
-                            if (s.getAluno().equals(aluno)) {
-                                sb.append("- ").append(a.getTipo()).append(": ")
-                                  .append(s.getNota()).append("/").append(a.getNotaMaxima()).append("\n");
-                            }
                         }
                     }
-
-                    sb.append("\nMédia ponderada: ").append(String.format("%.2f", relatorio.calculateMediaPonderada())).append("\n");
-                    sb.append("Aproveitamento: ").append(String.format("%.2f%%", relatorio.calculaAproveitamento())).append("\n");
-                    encontrou = true;
-                    break;
                 }
-            }
-            if (encontrou) break;
-        }
+                break;
+            case 4:
+                System.out.println("\nDigite o nome do aluno:");
+                String nomeAluno = scanner.nextLine();
 
-        if (!encontrou) {
-            sb.append("Aluno não encontrado ou sem submissões.");
-        }
+                boolean achou = false;
+                Turma turmaAtual = cursoEscolhido.getTurmas().get(0);
 
-        textAreaResultados.setText(sb.toString());
-    }
+                for (Aluno aluno : turmaAtual.getListaDeAlunos()) {
+                    if (aluno.getNome().equalsIgnoreCase(nomeAluno)) {
+                        PerformanceReport relatorio = new PerformanceReport(aluno, turmaAtual);
 
-    private void deletarAluno() {
-        String nomeAluno = JOptionPane.showInputDialog(this, "Digite o nome do aluno a ser deletado:");
-        if (nomeAluno == null || nomeAluno.trim().isEmpty()) {
-            return;
-        }
+                        System.out.println("\nRelatório de desempenho para " + aluno.getNome() + 
+                                         " na turma " + turmaAtual.getCodigo());
 
-        boolean encontrou = false;
-        for (Turma turma : cursoSelecionado.getTurmas()) {
-            for (int i = 0; i < turma.getListaDeAlunos().size(); i++) {
-                Aluno aluno = turma.getListaDeAlunos().get(i);
-                if (aluno.getNome().equalsIgnoreCase(nomeAluno)) {
-                    aluno.deleteAluno();
-                    turma.removerAluno(aluno);
-                    JOptionPane.showMessageDialog(this, "Aluno deletado com sucesso!");
-                    textAreaResultados.setText("Aluno " + nomeAluno + " foi deletado do sistema.");
-                    encontrou = true;
-                    break;
+                        for (Assessment a : turmaAtual.getListaDeAvaliacoes()) {
+                            for (Submission s : a.getSubmissions()) {
+                                if (s.getAluno().equals(aluno)) {
+                                    System.out.println("- " + a.getTipo() + ": " + 
+                                                     s.getNota() + "/" + a.getNotaMaxima());
+                                }
+                            }
+                        }
+
+                        System.out.println("Média ponderada: " + relatorio.calculateMediaPonderada());
+                        System.out.printf("Aproveitamento: %.2f%%\n", relatorio.calculaAproveitamento());
+                        achou = true;
+                        break;
+                    }
                 }
-            }
-            if (encontrou) break;
-        }
 
-        if (!encontrou) {
-            JOptionPane.showMessageDialog(this, "Aluno não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+                if (!achou) {
+                    System.out.println("Aluno não encontrado ou sem submissões.");
+                }
+                break;
+            case 5:
+                System.out.println("Você quer gerar o relatório de qual entidade?");
+                System.out.println("1 - Alunos");
+                System.out.println("2 - Professores");
+                System.out.println("3 - Turmas");
+                System.out.println("4 - Cursos");
+                System.out.println("5 - Avaliações");
+                int escolhaRelatorio = scanner.nextInt();
+                scanner.nextLine(); // Limpar buffer do Scanner
+                Persistence persistence = new Persistence();
+                switch (escolhaRelatorio){
+                    case 1:
+                        persistence.gerarRelatorioAlunos(turma1.getListaDeAlunos(), cursoEscolhido.getNome());
+                        break;
+                    case 2:
+                        persistence.gerarRelatorioProfessores(professor.getProfessores(), cursoEscolhido.getNome());
+                        break;
+                    case 3:
+                        persistence.gerarRelatorioTurmas(cursoEscolhido.getTurmas(), cursoEscolhido.getNome());
+                        break;
+                        case 4:
+                            persistence.gerarRelatorioCursos(cursoEscolhido.getCursos(), cursoEscolhido.getNome());
+                        case 5:
+                            persistence.gerarRelatorioAssessments(turma1.getListaDeAvaliacoes(), cursoEscolhido.getNome());
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                        break;
+                        
+                }
+            case 6:
+                System.out.println("Deletar aluno");
+                System.out.println("Digite o nome do aluno:");
+                String nomeAlunoDeletar = scanner.nextLine();
+                for (Turma turma : cursoEscolhido.getTurmas()){
+                    for (Aluno aluno : turma.getListaDeAlunos()) {
+                        if (aluno.getNome().equalsIgnoreCase(nomeAlunoDeletar)) {
+                            aluno.deleteAluno();
+                            turma.removerAluno(aluno);
+                            System.out.println("Aluno deletado com sucesso.");
+                            break;
+                        }
+                    }
+                }
+                break;
+
+          default:
+              System.out.println("Opção inválida.");
+              break;
+      }
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            new Main().setVisible(true);
-        });
+    scanner.close();
     }
 }
+
+

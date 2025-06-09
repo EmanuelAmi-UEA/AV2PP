@@ -1,0 +1,9 @@
+=== RELATÓRIO DE PROFESSORES ===
+Data: 2025-06-09T02:25:05.567607976
+
+Nome: Dr. Silva
+Idade: 50
+ID: PROF001
+Especialidade: Ciência da Computação
+Número de Cursos: 1
+------------------------

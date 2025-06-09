@@ -13,22 +13,25 @@ public class Professor extends Pessoa {
 	    this.especilidade = especilidade;
 	    this.id = id;
 	    this.cursos = new ArrayList<Curso>();
+
 	}
 	
 	public void adicionarCurso(Curso curso) {
 	    this.cursos.add(curso);
-	    curso.setProfessor(this);
+	    curso.adicionarProfessor(this);
 	  }
 
 	  public void removerCurso(Curso curso) {
 	    this.cursos.remove(curso);
-	    curso.setProfessor(null);
+	    curso.adicionarCurso(null);
 	  }
 	  
 	  /////////////// metodos getters e setters ///////////////////
 	  public ArrayList<Curso> getCursos() {
 	    return this.cursos;
 	  }
+
+
 
 	  public String getEspecilidade(){
 	    return this.especilidade;

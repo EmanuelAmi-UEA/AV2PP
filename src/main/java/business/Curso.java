@@ -7,14 +7,17 @@ public class Curso{
   private String nome;
   private String cargaHoraria;
   private String ementa;
-  private Professor professor;
+  private ArrayList <Professor> professores;
   private ArrayList<Turma> turmas;
+  private ArrayList<Curso> cursos;
 
   public Curso(String nome, String cargaHoraria, String ementa){
     this.nome = nome;
     this.cargaHoraria = cargaHoraria;
     this.ementa = ementa;
     this.turmas = new ArrayList<Turma>();
+    this.cursos = new ArrayList<Curso>();
+    this.professores = new ArrayList<Professor>();
   }
 
   /////////////// Metodos de manipulação de turmas ///////////////////
@@ -24,18 +27,33 @@ public class Curso{
   public void removerTurma(Turma turma){
     this.turmas.remove(turma);
   }
+  public void adicionarCurso(Curso curso){
+    this.cursos.add(curso);
+  }
+  public void adicionarProfessor(Professor professor){
+    this.professores.add(professor);
+  }
   
   /////////////// Metodos getters e setters ///////////////////
   public ArrayList<Turma> getTurmas(){
     return this.turmas;
   }    
+  public ArrayList<Curso> getCursos(){
+    return this.cursos;
+  }
   
-  public Professor getProfessor() {
-    return this.professor;
+  public ArrayList<Professor> getProfessores(){
+    return this.professores;
   }
 
-  public void setProfessor(Professor professor) {
-    this.professor = professor;
+  // retorna o nome de um dos professores
+  public String getProfessor(String professor){
+    for (Professor prof : this.professores){
+      if(prof.getNome().equals(professor)){
+        return professor;
+      }
+    }
+    return null;
   }
 
   public String getNome(){
