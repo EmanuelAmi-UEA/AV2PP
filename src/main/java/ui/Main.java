@@ -132,6 +132,8 @@ public class Main {
 
         Curso cursoEscolhido = (escolhaCurso == 1) ? curso : curso2;
 
+        ArrayList<Professor> professores = cursoEscolhido.getProfessores();
+
         // Menu de opções
         System.out.println("\nEscolha uma opção:");
         System.out.println("1 - Exibir informações dos Professores");
@@ -148,8 +150,6 @@ public class Main {
         switch (escolhaMenu) {
             case 1:
                 // Exibir informações dos professores
-                ArrayList<Professor> professores = cursoEscolhido.getProfessores();
-                
                 if (professores.isEmpty()) {
                     System.out.println("Nenhum professor encontrado para este curso.");
                     break;
@@ -198,8 +198,13 @@ public class Main {
             case 2:
                 // Exibir informações das turmas
                 System.out.println("\nInformações da turma: " + cursoEscolhido.getNome());
-                Professor professorCurso = cursoEscolhido.getProfessor();
-                System.out.println("Professor: " + (professorCurso != null ? professorCurso.getNome() : "Não atribuído"));
+                if (professores.size()==1){
+                    System.out.println("Professor: " + professores.get(0).getNome());
+                } else{
+                    for (Professor prof : professores){
+                        System.out.println("Professor: " + prof.getNome());
+                    }
+                }
                 for (Turma turma : cursoEscolhido.getTurmas()){
                     System.out.println("Turma: " + turma.getCodigo());
                     System.out.println("Período: " + turma.getPeriodo());

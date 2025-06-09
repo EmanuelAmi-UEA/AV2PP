@@ -131,8 +131,10 @@ public class Persistence {
                 writer.write("Nome: " + curso.getNome() + "\n");
                 writer.write("Carga Horária: " + curso.getCargaHoraria() + "\n");
                 writer.write("Ementa: " + curso.getEmenta() + "\n");
-                Professor professor = curso.getProfessor();
-                writer.write("Professor: " + (professor != null ? professor.getNome() : "Não atribuído") + "\n");
+                ArrayList<Professor> professores = curso.getProfessores();
+                for (Professor professor : professores){
+                    writer.write("Professor: " + professor.getNome() + "\n");
+                }
                 writer.write("Número de Turmas: " + curso.getTurmas().size() + "\n");
                 writer.write("------------------------\n");
             }

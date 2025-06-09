@@ -65,28 +65,13 @@ run = ["java", "-classpath", ".:target/dependency/*", "ui.SwingGUI"]
 deploymentTarget = "cloudrun"
 
 [workflows]
-runButton = "Run GUI Application"
+runButton = "Run Application"
 
 [[workflows.workflow]]
-name = "Run GUI Application"
+name = "Run Application"
+author = 40449734
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "java -classpath .:target/dependency/* ui.SwingGUI"
-
-[[workflows.workflow]]
-name = "Run Main Class"
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "java -classpath .:target/dependency/* ui.Main"

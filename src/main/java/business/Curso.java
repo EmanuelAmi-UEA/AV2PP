@@ -6,7 +6,6 @@ public class Curso{
   private String nome;
   private String cargaHoraria;
   private String ementa;
-  private Professor professor;
   private ArrayList <Professor> professores;
   private ArrayList<Turma> turmas;
   private ArrayList<Curso> cursos;
@@ -47,21 +46,13 @@ public class Curso{
   }
 
   // retorna o nome de um dos professores
-  public String getProfessor(String professor){
+  public Professor getProfessor(String professor){
     for (Professor prof : this.professores){
       if(prof.getNome().equals(professor)){
-        return professor;
+        return prof;
       }
     }
     return null;
-  }
-
-  public Professor getProfessor(){
-    return this.professor;
-  }
-
-  public void setProfessor(Professor professor){
-    this.professor = professor;
   }
 
   public String getNome(){
