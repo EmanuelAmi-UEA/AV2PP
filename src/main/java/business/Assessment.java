@@ -37,7 +37,7 @@ public class Assessment {
         return this.submissions;
     }
 
-    public void addSubmission(Submission submission) {
+    private void addSubmission(Submission submission) {
         this.submissions.add(submission);
     }
 
