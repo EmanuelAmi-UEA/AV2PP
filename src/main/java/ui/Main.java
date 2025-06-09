@@ -14,7 +14,7 @@ public class Main {
     // Criar Professor
     Professor professor = new Professor("Dr. Silva",50, "Ciência da Computação", "PROF001");
     Professor professor2 = new Professor("Me. Souza",50, "Licenciatura da Computação", "PROF002");
-    Professor professor3 = new Professor("Me. Souza",50, "Licenciatura da Computação", "PROF002");    
+    Professor professor3 = new Professor("Pe. Souza",50, "Licenciatura da Computação", "PROF002");    
 
     // Criar Curso
     Curso curso = new Curso("Programação Java", "60h", "POO, Collections, Exception Handling");
@@ -276,7 +276,7 @@ public class Main {
                 System.out.println("1 - Alunos");
                 System.out.println("2 - Professores");
                 System.out.println("3 - Turmas");
-                System.out.println("4 - Cursos");
+                System.out.println("4 - Curso");
                 System.out.println("5 - Avaliações");
                 int escolhaRelatorio = scanner.nextInt();
                 scanner.nextLine(); // Limpar buffer do Scanner
@@ -292,7 +292,8 @@ public class Main {
                         persistence.gerarRelatorioTurmas(cursoEscolhido.getTurmas(), cursoEscolhido.getNome());
                         break;
                         case 4:
-                            persistence.gerarRelatorioCursos(cursoEscolhido.getCursos(), cursoEscolhido.getNome());
+                            persistence.gerarRelatorioCurso(cursoEscolhido, cursoEscolhido.getNome());
+                        break;
                         case 5:
                             persistence.gerarRelatorioAssessments(turma1.getListaDeAvaliacoes(), cursoEscolhido.getNome());
                         break;
@@ -301,6 +302,7 @@ public class Main {
                         break;
                         
                 }
+                break;
             case 6:
                 System.out.println("Deletar aluno");
                 System.out.println("Digite o nome do aluno:");

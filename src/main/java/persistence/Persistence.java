@@ -113,41 +113,36 @@ public class Persistence {
         }
     }
 
-    public void gerarRelatorioCursos(ArrayList<Curso> cursos, String nomeArquivo) {
-        if (cursos == null || cursos.isEmpty()) {
-            System.out.println("Lista de cursos está vazia ou nula.");
-            return;
-        }
-
+    // recebe como parametro um objeto do tipo curso e faz um relatorio dele
+    public void gerarRelatorioCurso(Curso curso, String nomeArquivo) {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(nomeArquivo + "_cursos.txt"), StandardCharsets.UTF_8));
+                new FileOutputStream(nomeArquivo + "_curso.txt"), StandardCharsets.UTF_8));
 
-            writer.write("=== RELATÓRIO DE CURSOS ===\n");
+            writer.write("=== RELATÓRIO DO CURSO ===\n");
             writer.write("Data: " + java.time.LocalDateTime.now() + "\n\n");
 
-            for (Curso curso : cursos) {
-                writer.write("Nome: " + curso.getNome() + "\n");
-                writer.write("Carga Horária: " + curso.getCargaHoraria() + "\n");
-                writer.write("Ementa: " + curso.getEmenta() + "\n");
-                ArrayList<Professor> professores = curso.getProfessores();
-                for (Professor professor : professores){
-                    writer.write("Professor: " + professor.getNome() + "\n");
-                }
-                writer.write("Número de Turmas: " + curso.getTurmas().size() + "\n");
-                writer.write("------------------------\n");
+            
+            writer.write("Nome: " + curso.getNome() + "\n");
+            writer.write("Carga Horária: " + curso.getCargaHoraria() + "\n");
+            writer.write("Ementa: " + curso.getEmenta() + "\n");
+            ArrayList<Professor> professores = curso.getProfessores();
+            for (Professor professor : professores){
+                writer.write("Professor: " + professor.getNome() + "\n");
             }
-
-            System.out.println("Relatório de cursos gerado: " + nomeArquivo + "_cursos.txt");
-
+            writer.write("Número de Turmas: " + curso.getTurmas().size() + "\n");
+            writer.write("------------------------\n");
+            
         } catch (IOException e) {
-            System.out.println("Erro ao gerar relatório de cursos: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            fecharWriter(writer);
-        }
-    }
+                System.out.println("Erro ao gerar relatório de cursos: " + e.getMessage());
+                e.printStackTrace();
+            } finally {
+                System.out.println("Relatório do curso gerado: " + nomeArquivo + "_curso.txt");
+                fecharWriter(writer);
+            }
+            } 
+
 
     public void gerarRelatorioAssessments(ArrayList<Assessment> assessments, String nomeArquivo) {
         if (assessments == null || assessments.isEmpty()) {

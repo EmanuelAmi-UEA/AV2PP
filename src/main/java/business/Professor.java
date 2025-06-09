@@ -17,7 +17,6 @@ public class Professor extends Pessoa {
 
 	public void adicionarCurso(Curso curso) {
 	    this.cursos.add(curso);
-	    curso.adicionarProfessor(this);
 	  }
 
 	  public void removerCurso(Curso curso) {
