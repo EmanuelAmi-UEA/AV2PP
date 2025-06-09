@@ -6,6 +6,7 @@ public class Curso{
   private String nome;
   private String cargaHoraria;
   private String ementa;
+  private Professor professor;
   private ArrayList <Professor> professores;
   private ArrayList<Turma> turmas;
   private ArrayList<Curso> cursos;
@@ -53,6 +54,14 @@ public class Curso{
       }
     }
     return null;
+  }
+
+  public Professor getProfessor(){
+    return this.professor;
+  }
+
+  public void setProfessor(Professor professor){
+    this.professor = professor;
   }
 
   public String getNome(){
