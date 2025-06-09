@@ -1,4 +1,3 @@
-
 package persistence;
 
 import java.io.BufferedWriter;
@@ -44,7 +43,14 @@ public class Persistence {
             System.out.println("Erro ao gerar relatório de alunos: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            fecharWriter(writer);
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Erro ao fechar o writer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -77,7 +83,14 @@ public class Persistence {
             System.out.println("Erro ao gerar relatório de professores: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            fecharWriter(writer);
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Erro ao fechar o writer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -109,7 +122,14 @@ public class Persistence {
             System.out.println("Erro ao gerar relatório de turmas: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            fecharWriter(writer);
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Erro ao fechar o writer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -123,7 +143,7 @@ public class Persistence {
             writer.write("=== RELATÓRIO DO CURSO ===\n");
             writer.write("Data: " + java.time.LocalDateTime.now() + "\n\n");
 
-            
+
             writer.write("Nome: " + curso.getNome() + "\n");
             writer.write("Carga Horária: " + curso.getCargaHoraria() + "\n");
             writer.write("Ementa: " + curso.getEmenta() + "\n");
@@ -133,13 +153,20 @@ public class Persistence {
             }
             writer.write("Número de Turmas: " + curso.getTurmas().size() + "\n");
             writer.write("------------------------\n");
-            
+
         } catch (IOException e) {
                 System.out.println("Erro ao gerar relatório de cursos: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 System.out.println("Relatório do curso gerado: " + nomeArquivo + "_curso.txt");
-                fecharWriter(writer);
+                if (writer != null) {
+                    try {
+                        writer.close();
+                    } catch (IOException e) {
+                        System.out.println("Erro ao fechar o writer: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
             }
             } 
 
@@ -173,7 +200,14 @@ public class Persistence {
             System.out.println("Erro ao gerar relatório de avaliações: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            fecharWriter(writer);
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Erro ao fechar o writer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -225,7 +259,14 @@ public class Persistence {
             System.out.println("Erro ao gerar relatório de performance: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            fecharWriter(writer);
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Erro ao fechar o writer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -274,7 +315,14 @@ public class Persistence {
             System.out.println("Erro ao gerar relatório de performance: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            fecharWriter(writer);
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Erro ao fechar o writer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
