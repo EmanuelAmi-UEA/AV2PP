@@ -225,8 +225,15 @@ public class Main {
                 break;
             case 3:
                 // Exibir submissões de uma turma
-                System.out.println("\nSubmissões da turma: " + cursoEscolhido.getNome());
-                for (Assessment a : cursoEscolhido.getTurmas().get(0).getListaDeAvaliacoes()) {
+                System.out.println("\nEscolha uma turma para ver as submissões:");
+                for (int i = 0; i < cursoEscolhido.getTurmas().size(); i++){
+                    System.out.println((i + 1) + " - " + cursoEscolhido.getTurmas().get(i).getCodigo());
+                }
+                int escolhaTurma = scanner.nextInt();
+                scanner.nextLine(); // Limpar buffer
+                Turma turmaEscolhida = cursoEscolhido.getTurmas().get(escolhaTurma - 1);
+                System.out.println("\nSubmissões da turma: " + turmaEscolhida.getCodigo());
+                for (Assessment a : turmaEscolhida.getListaDeAvaliacoes()) {
                     System.out.println("\nAvaliação: " + a.getTipo());
                     List<Submission> submissions = a.getSubmissions();
                     if (submissions.isEmpty()) {
@@ -368,9 +375,9 @@ public class Main {
                 for (int i = 0; i < cursoEscolhido.getTurmas().size(); i++){
                     System.out.println((i + 1) + " - " + cursoEscolhido.getTurmas().get(i).getCodigo());
                 }
-                int escolhaTurma = scanner.nextInt();
+                int escolhaTurma2 = scanner.nextInt();
                 scanner.nextLine(); // Limpar buffer
-                cursoEscolhido.getTurmas().get(escolhaTurma - 1).adicionarAluno(novoAluno);
+                cursoEscolhido.getTurmas().get(escolhaTurma2 - 1).adicionarAluno(novoAluno);
                 System.out.println("Aluno adicionado com sucesso.");
                 break;
             case 7:
@@ -450,7 +457,7 @@ public class Main {
                     String comentariosSubmission = scanner.nextLine();
                     Submission novaSubmission = new Submission(alunoSubmission, avaliacaoSubmission, notaSubmission, dataEntregaSubmission, comentariosSubmission);
                     avaliacaoSubmission.addSubmission(novaSubmission);
-                    alunoSubmission.addSubmission(novaSubmission);
+                    //alunoSubmission.addSubmission(novaSubmission);
                     System.out.println("Submission adicionada com sucesso.");
                     break;
                 

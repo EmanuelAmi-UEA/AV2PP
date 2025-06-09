@@ -326,14 +326,4 @@ public class Persistence {
         }
     }
 
-    private void fecharWriter(BufferedWriter writer) {
-        if (writer != null) {
-            try {
-                writer.close();
-            } catch (IOException e) {
-                System.out.println("Erro ao fechar o writer: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
 }
