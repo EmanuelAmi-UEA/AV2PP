@@ -456,7 +456,6 @@ public class Main {
                     System.out.println("Digite os comentários da submission:");
                     String comentariosSubmission = scanner.nextLine();
                     Submission novaSubmission = new Submission(alunoSubmission, avaliacaoSubmission, notaSubmission, dataEntregaSubmission, comentariosSubmission);
-                    avaliacaoSubmission.addSubmission(novaSubmission);
                     //alunoSubmission.addSubmission(novaSubmission);
                     System.out.println("Submission adicionada com sucesso.");
                     break;
