@@ -10,9 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import business.*;
 
-public class RelatorioPersist {
+public class Persistence {
 
-    public RelatorioPersist() {
+    public Persistence() {
     }
 
     public void gerarRelatorioAlunos(ArrayList<Aluno> alunos, String nomeArquivo) {

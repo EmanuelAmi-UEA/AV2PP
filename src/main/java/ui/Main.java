@@ -3,14 +3,14 @@ package ui;
 
 import java.util.ArrayList;
 import business.*;
-import persistence.RelatorioPersist;
+import persistence.Persistence;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("=== Sistema de Gestão Acadêmica ===");
         
         // Criar instância da classe de persistência
-        RelatorioPersist relatorio = new RelatorioPersist();
+        Persistence relatorio = new Persistence();
         
         // Criar dados de exemplo
         ArrayList<Aluno> alunos = criarAlunosExemplo();
