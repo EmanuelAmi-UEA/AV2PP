@@ -1,4 +1,3 @@
-
 package business;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class Curso{
   public void adicionarProfessor(Professor professor){
     this.professores.add(professor);
   }
-  
+
   /////////////// Metodos getters e setters ///////////////////
   public ArrayList<Turma> getTurmas(){
     return this.turmas;
@@ -41,7 +40,7 @@ public class Curso{
   public ArrayList<Curso> getCursos(){
     return this.cursos;
   }
-  
+
   public ArrayList<Professor> getProfessores(){
     return this.professores;
   }

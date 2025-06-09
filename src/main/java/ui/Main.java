@@ -148,13 +148,58 @@ public class Main {
         switch (escolhaMenu) {
             case 1:
                 // Exibir informações dos professores
-                System.out.println("\nInformações do Professor da turma: " + cursoEscolhido.getNome());
-                System.out.println("Professor: " + cursoEscolhido.getProfessor(professor.getNome()));
+                ArrayList<Professor> professores = cursoEscolhido.getProfessores();
+                
+                if (professores.isEmpty()) {
+                    System.out.println("Nenhum professor encontrado para este curso.");
+                    break;
+                }
+                
+                // Se há apenas um professor, mostra diretamente
+                if (professores.size() == 1) {
+                    Professor prof = professores.get(0);
+                    System.out.println("\n=== INFORMAÇÕES DO PROFESSOR ===");
+                    System.out.println("Curso: " + cursoEscolhido.getNome());
+                    System.out.println("Professor: " + prof.getNome());
+                    System.out.println("Idade: " + prof.getIdade());
+                    System.out.println("ID: " + prof.getId());
+                    System.out.println("Especialidade: " + prof.getEspecilidade());
+                    break;
+                }
+                
+                // Se há múltiplos professores, mostra lista para seleção
+                System.out.println("\nProfessores do curso " + cursoEscolhido.getNome() + ":");
+                for (int i = 0; i < professores.size(); i++) {
+                    System.out.println((i + 1) + " - " + professores.get(i).getNome());
+                }
+                System.out.print("Selecione o professor (número): ");
+                
+                int escolhaProfessor = scanner.nextInt();
+                scanner.nextLine(); // Limpar buffer
+                
+                if (escolhaProfessor >= 1 && escolhaProfessor <= professores.size()) {
+                    Professor profSelecionado = professores.get(escolhaProfessor - 1);
+                    System.out.println("\n=== INFORMAÇÕES DO PROFESSOR ===");
+                    System.out.println("Curso: " + cursoEscolhido.getNome());
+                    System.out.println("Professor: " + profSelecionado.getNome());
+                    System.out.println("Idade: " + profSelecionado.getIdade());
+                    System.out.println("ID: " + profSelecionado.getId());
+                    System.out.println("Especialidade: " + profSelecionado.getEspecilidade());
+                    System.out.println("Outros cursos do professor:");
+                    for (Curso c : profSelecionado.getCursos()) {
+                        if (!c.getNome().equals(cursoEscolhido.getNome())) {
+                            System.out.println("  - " + c.getNome());
+                        }
+                    }
+                } else {
+                    System.out.println("Opção inválida.");
+                }
                 break;
             case 2:
                 // Exibir informações das turmas
                 System.out.println("\nInformações da turma: " + cursoEscolhido.getNome());
-                System.out.println("Professor: " + cursoEscolhido.getProfessor().getNome());
+                Professor professorCurso = cursoEscolhido.getProfessor();
+                System.out.println("Professor: " + (professorCurso != null ? professorCurso.getNome() : "Não atribuído"));
                 for (Turma turma : cursoEscolhido.getTurmas()){
                     System.out.println("Turma: " + turma.getCodigo());
                     System.out.println("Período: " + turma.getPeriodo());
@@ -236,7 +281,7 @@ public class Main {
                         persistence.gerarRelatorioAlunos(turma1.getListaDeAlunos(), cursoEscolhido.getNome());
                         break;
                     case 2:
-                        persistence.gerarRelatorioProfessores(professor.getProfessores(), cursoEscolhido.getNome());
+                        persistence.gerarRelatorioProfessores(cursoEscolhido.getProfessores(), cursoEscolhido.getNome());
                         break;
                     case 3:
                         persistence.gerarRelatorioTurmas(cursoEscolhido.getTurmas(), cursoEscolhido.getNome());
