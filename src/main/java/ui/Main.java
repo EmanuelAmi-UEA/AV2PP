@@ -312,7 +312,7 @@ public class Main extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            new SwingGUI().setVisible(true);
+            new Main().setVisible(true);
         });
     }
 }

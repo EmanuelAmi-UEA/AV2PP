@@ -1,7 +1,8 @@
+
 compile = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
-run = "java -classpath .:target/dependency/* Main"
-entrypoint = "src/main/java/Main.java"
-hidden = ["**/*.class"]
+run = "java -classpath .:target/dependency/* ui.SwingGUI"
+entrypoint = "src/main/java/ui/SwingGUI.java"
+hidden = ["**/*.class", "target/**", ".settings/**"]
 
 [packager]
 language = "java"
@@ -56,32 +57,18 @@ type = "request"
 
 [debugger.interactive.launchMessage.arguments]
 classPaths = ["."]
-mainClass = "Main"
+mainClass = "ui.SwingGUI"
 
 [deployment]
 build = ["javac", "-classpath", ".:target/dependency/*", "-d", ".", "$(find . -type f -name '*.java')"]
-run = ["java", "-classpath", ".:target/dependency/*", "Main"]
+run = ["java", "-classpath", ".:target/dependency/*", "ui.SwingGUI"]
 deploymentTarget = "cloudrun"
 
 [workflows]
-runButton = "Run Application"
+runButton = "Run GUI Application"
 
 [[workflows.workflow]]
-name = "Run Application"
-author = 40449734
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "java -classpath .:target/dependency/* ui.Main"
-
-[[workflows.workflow]]
-name = "Run GUI"
-author = 40449734
+name = "Run GUI Application"
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
@@ -91,3 +78,15 @@ args = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.ja
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "java -classpath .:target/dependency/* ui.SwingGUI"
+
+[[workflows.workflow]]
+name = "Run Main Class"
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "java -classpath .:target/dependency/* ui.Main"
