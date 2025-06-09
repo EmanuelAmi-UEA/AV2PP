@@ -9,7 +9,6 @@ public class Assessment {
     private double notaMaxima;
     private double peso;
     private Turma turma;
-    private List<Assessment> assessments;
     private List<Submission> submissions;
 
     public Assessment(String tipo, double notaMaxima, double peso, Turma turma) {

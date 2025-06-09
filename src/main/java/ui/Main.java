@@ -351,7 +351,16 @@ public class Main {
                             persistence.gerarRelatorioCurso(cursoEscolhido, cursoEscolhido.getNome());
                         break;
                         case 5:
-                            persistence.gerarRelatorioAssessments(turma1.getListaDeAvaliacoes(), cursoEscolhido.getNome());
+                            System.out.print("Selecione a turma (número): \n");
+                            for(int i = 0; i < cursoEscolhido.getTurmas().size(); i++){
+                                System.out.println((i + 1) + " - " + cursoEscolhido.getTurmas().get(i).getCodigo());
+                            }
+                            int escolhaTurma3 = scanner.nextInt();
+                            scanner.nextLine(); //Limpa Buffer
+                            Turma turma = cursoEscolhido.getTurmas().get(escolhaTurma3 - 1);
+                        
+                        
+                            persistence.gerarRelatorioAssessments(turma.getListaDeAvaliacoes(), cursoEscolhido.getNome());
                         break;
                     default:
                         System.out.println("Opção inválida.");

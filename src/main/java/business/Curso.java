@@ -8,14 +8,12 @@ public class Curso{
   private String ementa;
   private ArrayList <Professor> professores;
   private ArrayList<Turma> turmas;
-  private ArrayList<Curso> cursos;
 
   public Curso(String nome, String cargaHoraria, String ementa){
     this.nome = nome;
     this.cargaHoraria = cargaHoraria;
     this.ementa = ementa;
     this.turmas = new ArrayList<Turma>();
-    this.cursos = new ArrayList<Curso>();
     this.professores = new ArrayList<Professor>();
   }
 
@@ -26,9 +24,6 @@ public class Curso{
   public void removerTurma(Turma turma){
     this.turmas.remove(turma);
   }
-  public void adicionarCurso(Curso curso){
-    this.cursos.add(curso);
-  }
   public void adicionarProfessor(Professor professor){
     this.professores.add(professor);
   }
@@ -37,6 +32,7 @@ public class Curso{
   public ArrayList<Turma> getTurmas(){
     return this.turmas;
   }    
+
   public ArrayList<Curso> getCursos(){
     return this.cursos;
   }
