@@ -10,21 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 import business.*;
 
-public class Main extends JFrame {
+public class SwingGUI extends JFrame {
     private ArrayList<Curso> cursos;
     private Curso cursoSelecionado;
     private JComboBox<String> comboCursos;
     private JTextArea textAreaResultados;
     private JButton btnProfessores, btnTurmas, btnSubmissoes, btnRelatorio, btnDeletarAluno;
 
-    public Main() {
+    public SwingGUI() {
         inicializarDados();
         configurarInterface();
     }
 
     private void inicializarDados() {
         cursos = new ArrayList<>();
-
+        
         // Criar Professores
         Professor professor = new Professor("Dr. Silva", 45, "Ciência da Computação", "PROF001");
         Professor professor2 = new Professor("Me. Souza", 38, "Licenciatura da Computação", "PROF002");
@@ -114,7 +114,7 @@ public class Main extends JFrame {
         JPanel painelSuperior = new JPanel(new FlowLayout());
         painelSuperior.setBorder(new EmptyBorder(10, 10, 10, 10));
         painelSuperior.add(new JLabel("Selecione um curso:"));
-
+        
         String[] nomesCursos = cursos.stream().map(Curso::getNome).toArray(String[]::new);
         comboCursos = new JComboBox<>(nomesCursos);
         comboCursos.addActionListener(e -> {
@@ -248,7 +248,7 @@ public class Main extends JFrame {
             for (Aluno aluno : turma.getListaDeAlunos()) {
                 if (aluno.getNome().equalsIgnoreCase(nomeAluno)) {
                     PerformanceReport relatorio = new PerformanceReport(aluno, turma);
-
+                    
                     sb.append("=== RELATÓRIO DE DESEMPENHO ===\n\n");
                     sb.append("Aluno: ").append(aluno.getNome()).append("\n");
                     sb.append("Turma: ").append(turma.getCodigo()).append("\n\n");
@@ -312,7 +312,7 @@ public class Main extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            new Main().setVisible(true);
+            new SwingGUI().setVisible(true);
         });
     }
 }
